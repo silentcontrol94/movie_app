@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.header input {
+  border: 1px solid silver;
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+
+.header input:focus {
+  outline: none;
+}
+
+.header button {
+  padding: 0 20px;
+  height: 32px;
+  position: relative;
+  top: -2px;
+}
+
+.movie_data .movie_card, .favourite_data .movie_card {
+  position: relative;
+  overflow: hidden;
+}
+
+.movie_data .movie_card img, .favourite_data .movie_card img {
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.movie_data .movie_card:hover img, .favourite_data .movie_card:hover img {
+  -webkit-filter: brightness(0.3) blur(1px);
+          filter: brightness(0.3) blur(1px);
+  -webkit-transform: scale(1.07);
+          transform: scale(1.07);
+}
+
+.movie_data .movie_card .movie_info, .favourite_data .movie_card .movie_info {
+  position: absolute;
+  top: -150px;
+  left: 25px;
+  color: #fff;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.movie_data .movie_card .movie_info h2, .favourite_data .movie_card .movie_info h2 {
+  max-width: 235px;
+  font-size: 25px;
+}
+
+.movie_data .movie_card:hover .movie_info, .favourite_data .movie_card:hover .movie_info {
+  top: 10px;
+}
+
+.movie_data .movie_card .is_favourite, .favourite_data .movie_card .is_favourite {
+  position: absolute;
+  bottom: 15px;
+  right: -30px;
+  color: #fff;
+  font-size: 20px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.movie_data .movie_card:hover .is_favourite, .favourite_data .movie_card:hover .is_favourite {
+  right: 30px;
+}
+
+#lastSearches .last_search {
+  position: relative;
+}
+
+#lastSearches .last_search .last_search_data {
+  border: 1px solid lightgrey;
+  padding: 5px 10px;
+  -webkit-box-shadow: 2px 2px 4px silver;
+          box-shadow: 2px 2px 4px silver;
+}
+
+#lastSearches i {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+/*# sourceMappingURL=main.css.map */
