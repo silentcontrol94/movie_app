@@ -81,7 +81,6 @@ const apiController = {
             apiController.movieContainer.append(movieCard);
         });
         $(".movie_data i").on("click", (e) => {
-            console.log("search çağrıldı")
             let target = $(e.target);
             let currentMovie = target.parents(".movie_card").data("id");
             if(target.hasClass("far")){
@@ -126,7 +125,6 @@ const apiController = {
             apiController.movieContainer.append(movieCard);
         })
         $(".favourite_data i").on("click", (e) => {
-            console.log("çağrıldı")
             let target = $(e.target);
             let currentMovie = target.parents(".favourite_card").data("id");
             if(target.hasClass("far")){
@@ -162,10 +160,6 @@ const apiController = {
         $(".remove_history").on("click",(e) => {
             $(e.target).parents(".last_search").remove()
         })
-        // $(".last_search_data").on("click",() => {
-        //     apiController.search(s);
-        //     console.log("asflmas")
-        // })
     }
 }
 // Sayfa yüklenirken favorilerin çekilmesi
