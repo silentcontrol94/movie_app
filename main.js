@@ -50,6 +50,7 @@ const apiController = {
     getSearchValue : (e) => {
         searchValue = $(e.target).val();
     },
+    // search sonuçlarının basılması
     searchResult :(data) => {
         apiController.movieContainer = $(".movie_data")
         apiController.movieContainer.html("");
@@ -94,7 +95,7 @@ const apiController = {
             apiController.favourites("i");
         })
     },
-    // search veya favoriye göre arama sonuçlarının basılması
+    // favori sonuçlarının basılması
     favouriteResult : (data) => {
         apiController.movieContainer = $(".favourite_data")
         apiController.movieContainer.html("");
@@ -129,18 +130,18 @@ const apiController = {
             let target = $(e.target);
             let currentMovie = target.parents(".favourite_card").data("id");
             if(target.hasClass("far")){
-                target.removeClass("far")
-                target.addClass("fas")
+                $("[data-id=" + currentMovie + "] i").removeClass("far")
+                $("[data-id=" + currentMovie + "] i").addClass("fas")
             }else{
-                target.addClass("far")
-                target.removeClass("fas")
+                $("[data-id=" + currentMovie + "] i").addClass("far")
+                $("[data-id=" + currentMovie + "] i").removeClass("fas")
             }
             favouriteHelper(currentMovie);
         })
         // favori iconunun düzenlenmesi
     },
     // Son aramaların basılması ve son 10 arama kontrolü
-    lastSearches : (s,e) => {
+    lastSearches : (s) => {
         let lastSearch = document.createElement("div");
         let lastSearchData = document.createElement("div");
         let removeIcon = document.createElement("i");
@@ -161,6 +162,10 @@ const apiController = {
         $(".remove_history").on("click",(e) => {
             $(e.target).parents(".last_search").remove()
         })
+        // $(".last_search_data").on("click",() => {
+        //     apiController.search(s);
+        //     console.log("asflmas")
+        // })
     }
 }
 // Sayfa yüklenirken favorilerin çekilmesi
