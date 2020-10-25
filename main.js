@@ -144,7 +144,7 @@ const apiController = {
         let lastSearchData = document.createElement("div");
         let removeIcon = document.createElement("i");
         removeIcon.className = "fas fa-minus-circle remove_history";
-        lastSearch.className = "last_search col-sm-3 col-lg-2";
+        lastSearch.className = "last_search col-sm-3 col-lg-2 mb-2";
         lastSearchData.className = "last_search_data";
         if(lastSearches.length <= 9){
             lastSearches.unshift(s)
