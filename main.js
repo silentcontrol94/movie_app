@@ -18,7 +18,7 @@ const apiController = {
             type : 'GET',
             url : `http://www.omdbapi.com/?${apiSettings.type}=${value}&apikey=${apiSettings.apiKey}&plot=${apiSettings.plot}`,
             success : (data) => {
-                apiController.resultView(data,"s");
+                apiController.searchResult(data);
             },
             error : (response) => {
                 console.log(response)
@@ -26,18 +26,16 @@ const apiController = {
         })
     },
     // favoriler için imdb id ile arama
-    favourites : (data,searchType) => {
-        let favouriteObj = {
-            Response : "True",
-            Search : new Array(),
-            totalResults : ""
-        }
+    favourites : (searchType) => {
+        let data = JSON.parse(localStorage.getItem("favourite"))
+        var favObj = [];
         data.forEach(item => {
             $.ajax({
                 type : 'GET',
                 url : `http://www.omdbapi.com/?${searchType}=${item}&apikey=${apiSettings.apiKey}&plot=${apiSettings.plot}`,
                 success : (data) => {
-                    apiController.resultView(data,"f");
+                    favObj.unshift(data);
+                    apiController.favouriteResult(favObj);
                 },
                 error : (response) => {
                     console.log(response);
@@ -52,66 +50,37 @@ const apiController = {
     getSearchValue : (e) => {
         searchValue = $(e.target).val();
     },
-    // search veya favoriye göre arama sonuçlarının basılması
-    resultView : (data,type) => {
-        type == "f" ? apiController.movieContainer = $(".favourite_data") : apiController.movieContainer = $(".movie_data");
-        if(type == "f"){
+    searchResult :(data) => {
+        apiController.movieContainer = $(".movie_data")
+        apiController.movieContainer.html("");
+        data.Search.forEach(item => {
             let movieCard = document.createElement("div");
             let movieImage = document.createElement("img");
             let movieInfo = document.createElement("div");
             let movieTitle = document.createElement("h2");
             let movieYear = document.createElement("span");
             let isFavourite = document.createElement("i");
-            if(localStorage.getItem("favourite") && localStorage.getItem("favourite").includes(data.imdbID)){
-                isFavourite.className = "is_favourite fas fa-heart";
+            if(localStorage.getItem("favourite") && localStorage.getItem("favourite").includes(item.imdbID)){
+                isFavourite.className = "search_favourite fas fa-heart";
             }else{
-                isFavourite.className = "is_favourite far fa-heart";
+                isFavourite.className = "search_favourite far fa-heart";
             }
-            movieCard.setAttribute("data-ID",data.imdbID);
+            movieCard.setAttribute("data-ID",item.imdbID);
             movieCard.className = "col-sm-6 col-md-4 col-lg-3 mb-3 movie_card";
             movieInfo.className = "movie_info";
-            movieTitle.textContent = data.Title;
-            movieImage.src = data.Poster;
-            movieImage.alt = data.Title;
-            movieYear.textContent = data.Year;
+            movieTitle.textContent = item.Title;
+            movieImage.src = item.Poster;
+            movieImage.alt = item.Title;
+            movieYear.textContent = item.Year;
             movieInfo.appendChild(movieTitle);
             movieInfo.appendChild(movieYear);
             movieCard.appendChild(movieImage);
             movieCard.appendChild(movieInfo);
             movieCard.appendChild(isFavourite);
             apiController.movieContainer.append(movieCard);
-        }else{
-            apiController.movieContainer.html("");
-            data.Search.forEach(item => {
-                let movieCard = document.createElement("div");
-                let movieImage = document.createElement("img");
-                let movieInfo = document.createElement("div");
-                let movieTitle = document.createElement("h2");
-                let movieYear = document.createElement("span");
-                let isFavourite = document.createElement("i");
-                if(localStorage.getItem("favourite") && localStorage.getItem("favourite").includes(item.imdbID)){
-                    isFavourite.className = "is_favourite fas fa-heart";
-                }else{
-                    isFavourite.className = "is_favourite far fa-heart";
-                }
-                movieCard.setAttribute("data-ID",item.imdbID);
-                movieCard.className = "col-sm-6 col-md-4 col-lg-3 mb-3 movie_card";
-                movieInfo.className = "movie_info";
-                movieTitle.textContent = item.Title;
-                movieImage.src = item.Poster;
-                movieImage.alt = item.Title;
-                movieYear.textContent = item.Year;
-                movieInfo.appendChild(movieTitle);
-                movieInfo.appendChild(movieYear);
-                movieCard.appendChild(movieImage);
-                movieCard.appendChild(movieInfo);
-                movieCard.appendChild(isFavourite);
-                apiController.movieContainer.append(movieCard);
-            });
-        }
-        // favori iconunun düzenlenmesi
-        $(".is_favourite").on("click", (e) => {
-            console.log("çağrıldı")
+        });
+        $(".movie_data i").on("click", (e) => {
+            console.log("search çağrıldı")
             let target = $(e.target);
             let currentMovie = target.parents(".movie_card").data("id");
             if(target.hasClass("far")){
@@ -122,10 +91,56 @@ const apiController = {
                 target.removeClass("fas")
             }
             favouriteHelper(currentMovie);
+            apiController.favourites("i");
         })
     },
+    // search veya favoriye göre arama sonuçlarının basılması
+    favouriteResult : (data) => {
+        apiController.movieContainer = $(".favourite_data")
+        apiController.movieContainer.html("");
+        data.forEach(item => {
+            let movieCard = document.createElement("div");
+            let movieImage = document.createElement("img");
+            let movieInfo = document.createElement("div");
+            let movieTitle = document.createElement("h2");
+            let movieYear = document.createElement("span");
+            let isFavourite = document.createElement("i");
+            if(localStorage.getItem("favourite") && localStorage.getItem("favourite").includes(item.imdbID)){
+                isFavourite.className = "is_favourite fas fa-heart";
+            }else{
+                isFavourite.className = "is_favourite far fa-heart";
+            }
+            movieCard.setAttribute("data-ID",item.imdbID);
+            movieCard.className = "col-sm-6 col-md-4 col-lg-3 mb-3 favourite_card";
+            movieInfo.className = "movie_info";
+            movieTitle.textContent = item.Title;
+            movieImage.src = item.Poster;
+            movieImage.alt = item.Title;
+            movieYear.textContent = item.Year;
+            movieInfo.appendChild(movieTitle);
+            movieInfo.appendChild(movieYear);
+            movieCard.appendChild(movieImage);
+            movieCard.appendChild(movieInfo);
+            movieCard.appendChild(isFavourite);
+            apiController.movieContainer.append(movieCard);
+        })
+        $(".favourite_data i").on("click", (e) => {
+            console.log("çağrıldı")
+            let target = $(e.target);
+            let currentMovie = target.parents(".favourite_card").data("id");
+            if(target.hasClass("far")){
+                target.removeClass("far")
+                target.addClass("fas")
+            }else{
+                target.addClass("far")
+                target.removeClass("fas")
+            }
+            favouriteHelper(currentMovie);
+        })
+        // favori iconunun düzenlenmesi
+    },
     // Son aramaların basılması ve son 10 arama kontrolü
-    lastSearches : (s) => {
+    lastSearches : (s,e) => {
         let lastSearch = document.createElement("div");
         let lastSearchData = document.createElement("div");
         let removeIcon = document.createElement("i");
@@ -157,15 +172,12 @@ let favouriteList = () => {
     }
 }
 favouriteList();
-
 // helper favourite function
 let favouriteHelper = (e) => {
     if(localStorage.getItem("favourite")){
         if(localStorage.getItem("favourite").includes(e)){
             favouriteArray = favouriteArray.filter(item => item !== e)
-            if($("[data-id=" + e + "").parents(".favourite_data").length){
-                $("[data-id=" + e + "").remove();
-            }
+            $("[data-id=" + e + "]" + ".favourite_card").remove();
         }else{
             favouriteArray.unshift(e);
         }
@@ -176,6 +188,6 @@ let favouriteHelper = (e) => {
         localStorage.setItem("favourite",JSON.stringify(favouriteArray));
     }
 }
-apiController.favourites(favouriteArray,"i");
+apiController.favourites("i");
 $("#searchButton").on("click",apiController.click);
 $("#searchValue").on("keyup",apiController.getSearchValue);

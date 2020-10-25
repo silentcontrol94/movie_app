@@ -22,12 +22,12 @@
   top: -2px;
 }
 
-.movie_data .movie_card, .favourite_data .movie_card {
+.movie_data .movie_card {
   position: relative;
   overflow: hidden;
 }
 
-.movie_data .movie_card img, .favourite_data .movie_card img {
+.movie_data .movie_card img {
   width: 100%;
   height: 300px;
   border-radius: 10px;
@@ -35,14 +35,14 @@
   transition: all 0.4s ease;
 }
 
-.movie_data .movie_card:hover img, .favourite_data .movie_card:hover img {
+.movie_data .movie_card:hover img {
   -webkit-filter: brightness(0.3) blur(1px);
           filter: brightness(0.3) blur(1px);
   -webkit-transform: scale(1.07);
           transform: scale(1.07);
 }
 
-.movie_data .movie_card .movie_info, .favourite_data .movie_card .movie_info {
+.movie_data .movie_card .movie_info {
   position: absolute;
   top: -150px;
   left: 25px;
@@ -51,16 +51,16 @@
   transition: all 0.4s ease;
 }
 
-.movie_data .movie_card .movie_info h2, .favourite_data .movie_card .movie_info h2 {
+.movie_data .movie_card .movie_info h2 {
   max-width: 235px;
   font-size: 25px;
 }
 
-.movie_data .movie_card:hover .movie_info, .favourite_data .movie_card:hover .movie_info {
+.movie_data .movie_card:hover .movie_info {
   top: 10px;
 }
 
-.movie_data .movie_card .is_favourite, .favourite_data .movie_card .is_favourite {
+.movie_data .movie_card .search_favourite {
   position: absolute;
   bottom: 15px;
   right: -30px;
@@ -70,12 +70,65 @@
   transition: all 0.4s ease;
 }
 
-.movie_data .movie_card:hover .is_favourite, .favourite_data .movie_card:hover .is_favourite {
+.movie_data .movie_card:hover .search_favourite {
+  right: 30px;
+}
+
+.favourite_data .favourite_card {
+  position: relative;
+  overflow: hidden;
+}
+
+.favourite_data .favourite_card img {
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.favourite_data .favourite_card:hover img {
+  -webkit-filter: brightness(0.3) blur(1px);
+          filter: brightness(0.3) blur(1px);
+  -webkit-transform: scale(1.07);
+          transform: scale(1.07);
+}
+
+.favourite_data .favourite_card .movie_info {
+  position: absolute;
+  top: -150px;
+  left: 25px;
+  color: #fff;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.favourite_data .favourite_card .movie_info h2 {
+  max-width: 235px;
+  font-size: 25px;
+}
+
+.favourite_data .favourite_card:hover .movie_info {
+  top: 10px;
+}
+
+.favourite_data .favourite_card .is_favourite {
+  position: absolute;
+  bottom: 15px;
+  right: -30px;
+  color: #fff;
+  font-size: 20px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.favourite_data .favourite_card:hover .is_favourite {
   right: 30px;
 }
 
 #lastSearches .last_search {
   position: relative;
+  cursor: pointer;
 }
 
 #lastSearches .last_search .last_search_data {
